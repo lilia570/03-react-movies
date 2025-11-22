@@ -1,4 +1,4 @@
-import { Movie } from "../types/movie.ts";
+import type { Movie } from "../types/movie.ts";
 import styles from "./MovieModal.module.css";
 import { createPortal } from "react-dom";
 

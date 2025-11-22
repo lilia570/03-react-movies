@@ -1,11 +1,11 @@
  
 import axios from "axios";
-import { Movie } from "../types/movie.ts";
+import type { Movie } from "../types/movie.ts";
 
 const BASE_URL = "https://api.themoviedb.org/3/search/movie";
 
-export const fetchMovies = async (query: string) => {
-    const response = await axios.get(`https://api.themoviedb.org/3/search/movie/search/movie`, {
+export const fetchMovies = async (query: string): Promise<{ results: Movie[] }> => {
+    const response = await axios.get(`${BASE_URL}/search/movie`, {
         params: {
             query,
             include_adult: false,

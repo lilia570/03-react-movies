@@ -1,12 +1,12 @@
 import { useState } from "react";
-import SearchBar from "./components/SearchBar/SearchBar";
-import MovieGrid from "./components/MovieGrid/MovieGrid";
-import MovieModal from "./components/MovieModal/MovieModal";
-import Loader from "./components/Loader/Loader";
-import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
+import SearchBar from "../SearchBar/SearchBar.tsx";
+import MovieGrid from "../MovieGrid/MovieGrid.tsx";
+import MovieModal from "../MovieModal/MovieModal.tsx";
+import Loader from "../Loader/Loader.tsx";
+import ErrorMessage from "../ErrorMessage/ErrorMessage.tsx";
 
-import { fetchMovies } from "./services/movieService";
-import { Movie } from "./types/movie";
+import { fetchMovies } from "../services/movieServices.ts";
+import type {Movie} from "../types/movie.ts";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function App() {
@@ -43,7 +43,7 @@ export default function App() {
     <>
       <Toaster />
       <SearchBar onSearch={handleSearch} />
-      {loading && <Loader />}
+      {loading && < Loader />}
       {error && <ErrorMessage />}
       {!loading && !error && movies.length > 0 && (
         <MovieGrid movies={movies} onOpen={setModalMovie} />
