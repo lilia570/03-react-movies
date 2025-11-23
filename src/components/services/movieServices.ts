@@ -5,7 +5,7 @@ import type { Movie } from "../types/movie.ts";
 const BASE_URL = "https://api.themoviedb.org/3/search/movie";
 
 export const fetchMovies = async (query: string): Promise<{ results: Movie[] }> => {
-    const response = await axios.get(`${BASE_URL}/search/movie`, {
+    const response = await axios.get(`${BASE_URL}`, {
         params: {
             query,
             include_adult: false,
