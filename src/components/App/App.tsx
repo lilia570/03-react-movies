@@ -5,7 +5,7 @@ import MovieModal from "../MovieModal/MovieModal.tsx";
 import Loader from "../Loader/Loader.tsx";
 import ErrorMessage from "../ErrorMessage/ErrorMessage.tsx";
 import css from './App.module.css';
-import { fetchMovies } from "../../services/movieServices.ts";
+import { fetchMovies } from "../../services/movieService.ts";
 import type {Movie} from "../../types/movie.ts";
 import toast, { Toaster } from "react-hot-toast";
 
