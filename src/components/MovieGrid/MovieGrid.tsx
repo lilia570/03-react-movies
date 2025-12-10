@@ -1,16 +1,16 @@
 import type { Movie } from "../../types/movie";
 import styles from "./MovieGrid.module.css";
 
-interface Props {
+interface MovieGridProps {
   movies: Movie[];
-  onOpen: (movie: Movie) => void;
+  onSelect: (movie: Movie) => void;
 }
 
-export default function MovieGrid({ movies, onOpen }: Props) {
+export default function MovieGrid({ movies, onSelect }: MovieGridProps) {
   return (
     <ul className={styles.grid}>
       {movies.map((m) => (
-        <li key={m.id} onClick={() => onOpen(m)}>
+        <li key={m.id} onClick={() => onSelect(m)}>
           <div className={styles.card}>
             {m.poster_path ? (
               <img

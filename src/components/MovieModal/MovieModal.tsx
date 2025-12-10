@@ -1,23 +1,42 @@
 import type { Movie } from "../../types/movie.ts";
 import styles from "./MovieModal.module.css";
 import { createPortal } from "react-dom";
-
-interface Props {
-  movie: Movie | null;
+import { useEffect } from "react";
+interface MovieModalProps {
+  movie: Movie;
   onClose: () => void;
 }
 
-export default function MovieModal({ movie, onClose }: Props) {
-  if (!movie) return null;
+export default function MovieModal({ movie, onClose }: MovieModalProps) {
+   const handleBackdropClick = () => {
+    onClose();
+  };
+
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+    document.addEventListener("keydown", handleEsc);
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.removeEventListener("keydown", handleEsc);
+      document.body.style.overflow = "auto";
+    };
+  }, [onClose]);
 
   return createPortal(
-    <div className={styles.backdrop} onClick={onClose}>
+    <div className={styles.backdrop} onClick={handleBackdropClick}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <h2>{movie.title}</h2>
         <p>{movie.overview}</p>
-        {movie.poster_path && (
+        <p><strong>Release date:</strong> {movie.release_date}</p>
+        <p><strong>Rating:</strong> {movie.vote_average}</p>
+        {movie.backdrop_path && (
           <img
-            src={`https://image.tmdb.org/t/p/w400${movie.poster_path}`}
+            src={`https://image.tmdb.org/t/p/w400${movie.backdrop_path}`}
             alt="Poster"
           />
         )}
