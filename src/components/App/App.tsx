@@ -42,7 +42,11 @@ export default function App() {
   return (
     <div className={css.app}>
       <Toaster />
-      <SearchBar onSubmit={handleSearch} />
+      <SearchBar action={async (formData: FormData) => {
+       const query = formData.get("query")?.toString().trim();
+       if (!query) return; 
+       await handleSearch(query);  
+       }}/>
       {loading && < Loader />}
       {error && <ErrorMessage />}
       {!loading && !error && movies.length > 0 && (
