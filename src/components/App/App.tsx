@@ -15,25 +15,25 @@ export default function App() {
   const [error, setError] = useState(false);
   const [modalMovie, setModalMovie] = useState<Movie | null>(null);
 
-  const handleSearch = async (formData: FormData) => {
-  const query = formData.get("query")?.toString().trim();
-  if (!query) {
+  const handleSearch = async (query: string) => {
+  if (!query.trim()) {
     toast("Please enter your search query.");
     return;
   }
-
-    try {
+      try {
       setLoading(true);
       setError(false);
       setMovies([]);
 
       const data = await fetchMovies(query,1);
 
-      if (data.results.length === 0) toast("No movies found.");
+      if (!data.results || data.results.length === 0) {
+        toast.error("No movies found for your request.");
+        return;
+      }
 
       setMovies(data.results);
-    } catch (err) {
-      console.error(err);
+    } catch {
       setError(true);
     } finally {
       setLoading(false);
@@ -43,7 +43,7 @@ export default function App() {
   return (
     <div className={css.app}>
       <Toaster />
-      <SearchBar action={handleSearch}/> 
+      <SearchBar onSubmit={handleSearch}/> 
       {loading && < Loader />}
       {error && <ErrorMessage />}
       {!loading && !error && movies.length > 0 && (

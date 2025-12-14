@@ -1,10 +1,26 @@
+import type {FormEvent} from "react";
 import styles from "./SearchBar.module.css";
 import { toast } from "react-hot-toast";
 interface SearchBarProps {
- action: (formData: FormData) => Promise<void>;
+  onSubmit: (query: string) => Promise<void>;
 }
 
-export default function SearchBar({ action }: SearchBarProps) {
+export default function SearchBar({ onSubmit }: SearchBarProps) {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+    const query = formData.get("query")?.toString().trim();
+
+    if (!query) {
+      toast.error("Please enter a search term");
+      return;
+    }
+
+    onSubmit(query);
+    e.currentTarget.reset();
+
+  };
+
     return (
        <header className={styles.header}>
       <div className={styles.container}>
@@ -16,20 +32,12 @@ export default function SearchBar({ action }: SearchBarProps) {
         >
           Powered by TMDB
         </a>
-        <form className={styles.form}
-          action={async (formData: FormData) => {
-            const query = formData.get("query")?.toString().trim();
-            if (!query) {
-              toast.error("Please enter a search term");
-              return;
-            }
-            await action(formData);
-            (document.querySelector<HTMLInputElement>('input[name="query"]')!).value = "";
-          }}
-        >
+    <form className={styles.form} onSubmit={handleSubmit}>
       <input
         className={styles.input}
+        type="text"
         name="query"
+        autoComplete="off"
         placeholder="Search movies..."
       />
       <button className={styles.button} type="submit">
